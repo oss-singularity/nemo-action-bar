@@ -1,15 +1,30 @@
-# Nemo Action Bar
+<h1 align="center">Nemo Action Bar</h1>
 
-A configurable power bar above Nemo's file view. It provides 18 direct actions
-for creating folders, clipboard operations, undo/redo, selection and view
-controls, paths, terminal/admin access, favorites, archives and the trash. Open
-as root, the favorite toggle and both optional archive actions are shipped
-disabled by default, leaving 14 buttons visible.
+<p align="center">
+  A fast, configurable GTK power bar with 18 native Nemo file-manager actions.
+</p>
+
+<p align="center">
+  <a href="https://github.com/ClaudiuSchuster/nemo-action-bar/actions/workflows/check.yml"><img alt="Checks" src="https://github.com/ClaudiuSchuster/nemo-action-bar/actions/workflows/check.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-6f5bd5"></a>
+  <img alt="Nemo 5 or newer" src="https://img.shields.io/badge/Nemo-5%2B-75c46b">
+  <img alt="Python GTK 3" src="https://img.shields.io/badge/Python-GTK%203-3776ab">
+</p>
 
 The current default layout in a real Nemo window, together with Nemo's original
 toolbar and the [active-window highlight](https://github.com/ClaudiuSchuster/cinnamon-active-window-highlight):
 
 ![Nemo Action Bar with its 14-button default layout](docs/nemo-action-bar-default-context.png)
+
+## What it provides
+
+- 18 direct actions for folders, clipboard operations, undo/redo, selection,
+  views, paths, terminal/admin access, favorites, archives and the trash.
+- 14 useful buttons enabled by default; powerful or situational actions remain
+  one JSON switch away.
+- Live configuration reload in open Nemo windows.
+- Native Nemo actions, selection rules, dialogs and file operations.
+- Theme-compatible GTK icons and a compact layout that stays out of the way.
 
 All 18 available actions enabled:
 
@@ -98,6 +113,16 @@ configuration if you want to adopt the current defaults after an update.
 
 Run `./uninstall.sh`. The user configuration is deliberately retained and can
 be removed separately if it is no longer needed. Restart Nemo afterwards.
+
+## Development
+
+```bash
+make check
+```
+
+The checks compile the Python extension, validate the shipped and fallback
+button configurations, parse JSON and run ShellCheck. Every push and pull
+request runs the same validation in GitHub Actions.
 
 ## Cinnamon Spices status
 
