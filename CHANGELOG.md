@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 — 2026-08-24
+
+- Use English for default button labels, validation errors and runtime dialogs.
+- Add automated repository checks and refresh the public project presentation.
+
 ## 1.1.1 — 2026-08-14
 
 - Do not display the action bar on Nemo's desktop surface; regular file-manager

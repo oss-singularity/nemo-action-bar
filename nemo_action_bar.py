@@ -86,110 +86,110 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "buttons": [
         {
             "id": "new-folder",
-            "label": "Neuer Ordner",
+            "label": "New Folder",
             "icon": "folder-new-symbolic",
             "action": "new-folder",
         },
         {"type": "separator"},
         {
             "id": "cut",
-            "label": "Ausschneiden",
+            "label": "Cut",
             "icon": "edit-cut-symbolic",
             "action": "cut",
         },
         {
             "id": "copy",
-            "label": "Kopieren",
+            "label": "Copy",
             "icon": "edit-copy-symbolic",
             "action": "copy",
         },
         {
             "id": "paste",
-            "label": "Einfügen",
+            "label": "Paste",
             "icon": "edit-paste-symbolic",
             "action": "paste",
         },
         {
             "id": "duplicate",
-            "label": "Duplizieren",
+            "label": "Duplicate",
             "icon": "nemo-action-bar-duplicate-symbolic",
             "action": "duplicate",
         },
         {
             "id": "rename",
-            "label": "Umbenennen",
+            "label": "Rename",
             "icon": "document-edit-symbolic",
             "action": "rename",
         },
         {"type": "separator"},
         {
             "id": "undo",
-            "label": "Rückgängig",
+            "label": "Undo",
             "icon": "edit-undo-symbolic",
             "action": "undo",
         },
         {
             "id": "redo",
-            "label": "Wiederholen",
+            "label": "Redo",
             "icon": "edit-redo-symbolic",
             "action": "redo",
         },
         {"type": "separator"},
         {
             "id": "properties",
-            "label": "Eigenschaften",
+            "label": "Properties",
             "icon": "document-properties-symbolic",
             "action": "properties",
         },
         {
             "id": "select-all",
-            "label": "Alles auswählen",
+            "label": "Select All",
             "icon": "edit-select-all-symbolic",
             "action": "select-all",
         },
         {
             "id": "show-hidden",
-            "label": "Verborgene Dateien umschalten",
+            "label": "Toggle Hidden Files",
             "icon": "view-reveal-symbolic",
             "action": "show-hidden",
         },
         {"type": "separator"},
         {
             "id": "copy-path",
-            "label": "Pfade kopieren",
+            "label": "Copy Paths",
             "icon": "insert-link-symbolic",
             "action": "copy-path",
         },
         {
             "id": "open-terminal",
-            "label": "Im Terminal öffnen",
+            "label": "Open in Terminal",
             "icon": "utilities-terminal-symbolic",
             "action": "open-terminal",
         },
         {
             "id": "open-admin",
-            "label": "Als Administrator öffnen",
+            "label": "Open as Administrator",
             "icon": "dialog-password-symbolic",
             "action": "open-admin",
             "enabled": False,
         },
         {
             "id": "favorite",
-            "label": "Favorit umschalten",
+            "label": "Toggle Favorite",
             "icon": "xsi-favorite-symbolic",
             "action": "favorite-toggle",
             "enabled": False,
         },
         {
             "id": "archive-create",
-            "label": "Archiv erstellen",
+            "label": "Create Archive",
             "icon": "xsi-add-files-to-archive-symbolic",
             "action": "archive-create",
             "enabled": False,
         },
         {
             "id": "archive-extract",
-            "label": "Archiv hier entpacken",
+            "label": "Extract Here",
             "icon": "xsi-extract-archive-symbolic",
             "action": "archive-extract",
             "enabled": False,
@@ -197,7 +197,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
         {"type": "separator"},
         {
             "id": "trash",
-            "label": "In den Papierkorb verschieben",
+            "label": "Move to Trash",
             "icon": "user-trash-symbolic",
             "action": "trash",
         },
@@ -262,9 +262,9 @@ def _fail(message: str) -> None:
 
 def _bounded_int(value: Any, name: str, minimum: int, maximum: int) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
-        _fail(f"{name} muss eine ganze Zahl sein")
+        _fail(f"{name} must be an integer")
     if not minimum <= value <= maximum:
-        _fail(f"{name} muss zwischen {minimum} und {maximum} liegen")
+        _fail(f"{name} must be between {minimum} and {maximum}")
     return value
 
 
@@ -272,18 +272,18 @@ def validate_config(raw: Any) -> dict[str, Any]:
     """Validate and normalize a version-1 action-bar configuration."""
 
     if not isinstance(raw, dict):
-        _fail("Die oberste JSON-Struktur muss ein Objekt sein")
+        _fail("The top-level JSON value must be an object")
     if raw.get("version", 1) != 1:
-        _fail("Nur Konfigurationsversion 1 wird unterstützt")
+        _fail("Only configuration version 1 is supported")
 
     appearance_raw = raw.get("appearance", {})
     if not isinstance(appearance_raw, dict):
-        _fail("appearance muss ein Objekt sein")
+        _fail("appearance must be an object")
 
     defaults = DEFAULT_CONFIG["appearance"]
     alignment = appearance_raw.get("alignment", defaults["alignment"])
     if alignment not in {"start", "center", "end"}:
-        _fail("appearance.alignment muss start, center oder end sein")
+        _fail("appearance.alignment must be start, center or end")
 
     appearance = {
         "alignment": alignment,
@@ -304,25 +304,25 @@ def validate_config(raw: Any) -> dict[str, Any]:
         ),
     }
     if not isinstance(appearance["show-labels"], bool):
-        _fail("appearance.show-labels muss true oder false sein")
+        _fail("appearance.show-labels must be true or false")
 
     buttons_raw = raw.get("buttons", DEFAULT_CONFIG["buttons"])
     if not isinstance(buttons_raw, list):
-        _fail("buttons muss eine Liste sein")
+        _fail("buttons must be a list")
     if len(buttons_raw) > MAX_BUTTONS:
-        _fail(f"Es sind höchstens {MAX_BUTTONS} Einträge erlaubt")
+        _fail(f"At most {MAX_BUTTONS} entries are allowed")
 
     buttons: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     for index, item in enumerate(buttons_raw):
         if not isinstance(item, dict):
-            _fail(f"buttons[{index}] muss ein Objekt sein")
+            _fail(f"buttons[{index}] must be an object")
         item_type = item.get("type", "button")
         if item_type == "separator":
             buttons.append({"type": "separator"})
             continue
         if item_type != "button":
-            _fail(f"buttons[{index}].type muss button oder separator sein")
+            _fail(f"buttons[{index}].type must be button or separator")
 
         button_id = item.get("id")
         label = item.get("label")
@@ -337,25 +337,25 @@ def validate_config(raw: Any) -> dict[str, Any]:
             ("icon", icon, 160),
         ):
             if not isinstance(value, str) or not value.strip():
-                _fail(f"buttons[{index}].{field_name} muss Text enthalten")
+                _fail(f"buttons[{index}].{field_name} must contain text")
             if len(value) > maximum:
-                _fail(f"buttons[{index}].{field_name} ist zu lang")
+                _fail(f"buttons[{index}].{field_name} is too long")
         if action is not None:
             if not isinstance(action, str) or action not in ACTION_DEFINITIONS:
                 _fail(
-                    f"buttons[{index}].action ist nicht unterstützt: {action!r}"
+                    f"buttons[{index}].action is not supported: {action!r}"
                 )
         if shortcut is not None:
             if not isinstance(shortcut, str) or not shortcut.strip():
-                _fail(f"buttons[{index}].shortcut muss Text enthalten")
+                _fail(f"buttons[{index}].shortcut must contain text")
             if len(shortcut) > 80:
-                _fail(f"buttons[{index}].shortcut ist zu lang")
+                _fail(f"buttons[{index}].shortcut is too long")
         if action is None and shortcut is None:
-            _fail(f"buttons[{index}] benötigt action oder shortcut")
+            _fail(f"buttons[{index}] requires action or shortcut")
         if not isinstance(enabled, bool):
-            _fail(f"buttons[{index}].enabled muss true oder false sein")
+            _fail(f"buttons[{index}].enabled must be true or false")
         if button_id in seen_ids:
-            _fail(f"Doppelte Button-ID: {button_id}")
+            _fail(f"Duplicate button ID: {button_id}")
         seen_ids.add(button_id)
 
         buttons.append(
@@ -379,7 +379,7 @@ def load_config(path: Path = CONFIG_PATH) -> dict[str, Any]:
     try:
         raw = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as error:
-        raise ValueError(f"Konfiguration kann nicht gelesen werden: {error}") from error
+        raise ValueError(f"Configuration cannot be read: {error}") from error
     return validate_config(raw)
 
 
@@ -472,7 +472,7 @@ class ActionBar(Gtk.Box):
             if not keyval or not Gtk.accelerator_valid(keyval, modifiers):
                 button.set_sensitive(False)
                 button.set_tooltip_text(
-                    f"{spec['label']} – ungültiges Kürzel: {shortcut}"
+                    f"{spec['label']} – invalid shortcut: {shortcut}"
                 )
                 return button
 
@@ -528,7 +528,7 @@ class ActionBar(Gtk.Box):
                         and self._focused_selection_count() == 0
                     ):
                         self._show_unavailable(
-                            "Bitte zuerst mindestens eine Datei auswählen."
+                            "Select at least one file first."
                         )
                         return GLib.SOURCE_REMOVE
                     _activate_with_current_selection(action)
@@ -538,8 +538,8 @@ class ActionBar(Gtk.Box):
             return self._activate_shortcut(keyval, modifiers)
 
         dependency = ACTION_DEFINITIONS.get(action_id, {}).get("requires")
-        detail = f"Benötigtes Paket: {dependency}" if dependency else None
-        self._show_unavailable("Diese Nemo-Aktion ist gerade nicht verfügbar.", detail)
+        detail = f"Required package: {dependency}" if dependency else None
+        self._show_unavailable("This Nemo action is currently unavailable.", detail)
         return GLib.SOURCE_REMOVE
 
     def _find_nemo_action(
@@ -605,7 +605,7 @@ class ActionBar(Gtk.Box):
 
     def _copy_selected_paths(self) -> None:
         if self._focused_selection_count() == 0:
-            self._show_unavailable("Bitte zuerst mindestens eine Datei auswählen.")
+            self._show_unavailable("Select at least one file first.")
             return
 
         action = self._find_nemo_action(("Copy",), NEMO_FILE_ACTION_GROUPS)
@@ -625,7 +625,7 @@ class ActionBar(Gtk.Box):
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         uris = clipboard.wait_for_uris() or []
         if not uris:
-            self._show_unavailable("Die ausgewählten Pfade konnten nicht gelesen werden.")
+            self._show_unavailable("The selected paths could not be read.")
             return
 
         paths = []
@@ -711,7 +711,7 @@ class NemoActionBarProvider(GObject.GObject, Nemo.LocationWidgetProvider):
         try:
             return load_config()
         except ValueError as error:
-            print(f"Nemo Action Bar: {error}; Standard wird verwendet", file=sys.stderr)
+            print(f"Nemo Action Bar: {error}; using defaults", file=sys.stderr)
             return validate_config(copy.deepcopy(DEFAULT_CONFIG))
 
     def _create_monitor(self):
@@ -723,7 +723,7 @@ class NemoActionBarProvider(GObject.GObject, Nemo.LocationWidgetProvider):
             monitor.connect("changed", self._on_config_changed)
             return monitor
         except GLib.Error as error:
-            print(f"Nemo Action Bar: Live-Neuladen nicht verfügbar: {error}", file=sys.stderr)
+            print(f"Nemo Action Bar: live reload unavailable: {error}", file=sys.stderr)
             return None
 
     def _on_config_changed(
@@ -748,8 +748,8 @@ class NemoActionBarProvider(GObject.GObject, Nemo.LocationWidgetProvider):
             new_config = load_config()
         except ValueError as error:
             print(
-                f"Nemo Action Bar: Änderung ignoriert, letzte gültige "
-                f"Konfiguration bleibt aktiv: {error}",
+                f"Nemo Action Bar: change ignored; keeping the last valid "
+                f"configuration: {error}",
                 file=sys.stderr,
             )
             return GLib.SOURCE_REMOVE

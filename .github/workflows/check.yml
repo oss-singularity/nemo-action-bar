@@ -15,6 +15,10 @@ jobs:
       - name: Install checks
         run: |
           sudo apt-get update
-          sudo apt-get install -y shellcheck
+          sudo apt-get install -y \
+            gir1.2-gtk-3.0 \
+            gir1.2-nemo-3.0 \
+            python3-gi \
+            shellcheck
       - name: Validate repository
         run: make check

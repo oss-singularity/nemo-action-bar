@@ -42,6 +42,30 @@ assert [
 assert next(
     entry for entry in validated["buttons"] if entry.get("id") == "rename"
 )["action"] == "rename"
+assert {
+    entry["id"]: entry["label"]
+    for entry in validated["buttons"]
+    if entry["type"] == "button"
+} == {
+    "new-folder": "New Folder",
+    "cut": "Cut",
+    "copy": "Copy",
+    "paste": "Paste",
+    "duplicate": "Duplicate",
+    "rename": "Rename",
+    "undo": "Undo",
+    "redo": "Redo",
+    "properties": "Properties",
+    "select-all": "Select All",
+    "show-hidden": "Toggle Hidden Files",
+    "copy-path": "Copy Paths",
+    "open-terminal": "Open in Terminal",
+    "open-admin": "Open as Administrator",
+    "favorite": "Toggle Favorite",
+    "archive-create": "Create Archive",
+    "archive-extract": "Extract Here",
+    "trash": "Move to Trash",
+}
 for hidden_id in (
     "open-admin",
     "favorite",

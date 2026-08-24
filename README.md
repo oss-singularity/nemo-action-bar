@@ -79,6 +79,10 @@ installed GTK icon name and one of the supported action IDs:
 }
 ```
 
+English is the default language for labels and runtime messages. Labels remain
+plain configuration values, so a personal `buttons.json` can translate or
+rename them without changing the extension.
+
 Use `{ "type": "separator" }` for a separator or `"enabled": false` to hide
 an entry temporarily. Shortcut-only entries from earlier releases remain
 supported; their `shortcut` must be a valid GTK accelerator. Arbitrary command
