@@ -90,20 +90,20 @@ lines are intentionally not supported.
 
 ### Supported actions
 
-| Action ID | Behavior |
-| --- | --- |
-| `new-folder` | Create and immediately name a folder |
-| `cut`, `copy`, `paste` | Nemo's native clipboard operations |
-| `duplicate`, `rename`, `trash` | Operate on the current selection |
-| `undo`, `redo` | Nemo's file-operation history |
-| `properties`, `select-all` | Properties or full selection |
-| `show-hidden` | Toggle hidden files for the current window |
-| `copy-path` | Put selected local paths/URIs on the clipboard as plain text |
-| `open-terminal` | Open Nemo's configured terminal at the selected/current folder |
-| `open-admin` | Use Nemo's built-in “Open as Root” action and authentication dialog |
-| `favorite-toggle` | Add or remove the selection according to its current state |
-| `archive-create` | Open File Roller's archive-creation dialog (`nemo-fileroller`) |
-| `archive-extract` | Extract the selected supported archive here (`nemo-fileroller`) |
+| Action ID                      | Behavior                                                            |
+| ------------------------------ | ------------------------------------------------------------------- |
+| `new-folder`                   | Create and immediately name a folder                                |
+| `cut`, `copy`, `paste`         | Nemo's native clipboard operations                                  |
+| `duplicate`, `rename`, `trash` | Operate on the current selection                                    |
+| `undo`, `redo`                 | Nemo's file-operation history                                       |
+| `properties`, `select-all`     | Properties or full selection                                        |
+| `show-hidden`                  | Toggle hidden files for the current window                          |
+| `copy-path`                    | Put selected local paths/URIs on the clipboard as plain text        |
+| `open-terminal`                | Open Nemo's configured terminal at the selected/current folder      |
+| `open-admin`                   | Use Nemo's built-in “Open as Root” action and authentication dialog |
+| `favorite-toggle`              | Add or remove the selection according to its current state          |
+| `archive-create`               | Open File Roller's archive-creation dialog (`nemo-fileroller`)      |
+| `archive-extract`              | Extract the selected supported archive here (`nemo-fileroller`)     |
 
 The shipped `open-admin`, `favorite-toggle`, `archive-create` and
 `archive-extract` entries use `"enabled": false`. Change the desired values to
