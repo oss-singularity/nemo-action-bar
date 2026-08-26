@@ -55,5 +55,7 @@ jobs:
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
           VALIDATE_JSON_PRETTIER: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_MARKDOWN_PRETTIER: true
           VALIDATE_YAML: true
           VALIDATE_YAML_PRETTIER: true
