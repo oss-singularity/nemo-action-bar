@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1 — 2026-09-01
+
+- Add a polished 1280×640 GitHub social-preview card and a reproducible source
+  workflow for rendering it.
+- Refresh the root README hero with the card, release badge and concise product
+  positioning.
+
 ## 1.2.0 — 2026-08-24
 
 - Use English for default button labels, validation errors and runtime dialogs.
