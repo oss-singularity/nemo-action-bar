@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <linearGradient id="leftShade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#070b12" stop-opacity="0.99"/>
+      <stop offset="0.53" stop-color="#070b12" stop-opacity="0.92"/>
+      <stop offset="0.74" stop-color="#070b12" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#070b12" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#50d8f5"/>
+      <stop offset="0.58" stop-color="#56c9ff"/>
+      <stop offset="1" stop-color="#8c7bff"/>
+    </linearGradient>
+    <linearGradient id="iconTile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7be7f5"/>
+      <stop offset="0.58" stop-color="#4cb8f4"/>
+      <stop offset="1" stop-color="#736cf2"/>
+    </linearGradient>
+    <filter id="tileGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#leftShade)"/>
+  <rect x="1" y="1" width="1278" height="638" rx="26" fill="none" stroke="#6eddf2" stroke-opacity="0.24" stroke-width="2"/>
+
+  <text x="76" y="78" fill="#a7b6c8" font-family="Noto Sans, sans-serif" font-size="18" font-weight="700" letter-spacing="3">OSS SINGULARITY  /  OPEN SOURCE</text>
+  <rect x="76" y="101" width="244" height="5" rx="2.5" fill="url(#accent)"/>
+
+  <rect x="78" y="158" width="108" height="108" rx="31" fill="#4bdcff" opacity="0.20" filter="url(#tileGlow)"/>
+  <rect x="76" y="156" width="112" height="112" rx="32" fill="url(#iconTile)" stroke="#a2efff" stroke-opacity="0.60"/>
+
+  <text x="218" y="205" fill="#ffffff" font-family="Noto Sans, sans-serif" font-size="53" font-weight="800">Nemo Action Bar</text>
+  <text x="218" y="250" fill="#d9e6f5" font-family="Noto Sans, sans-serif" font-size="32" font-weight="600">for Nemo file manager</text>
+
+  <text x="76" y="356" fill="#f4f8fa" font-family="Noto Sans, sans-serif" font-size="30" font-weight="600">{{TAGLINE}}</text>
+  <text x="76" y="399" fill="#b0c0d0" font-family="Noto Sans, sans-serif" font-size="18">{{DETAIL}}</text>
+
+  <g font-family="Noto Sans, sans-serif" font-size="15" font-weight="700" letter-spacing="1.35">
+    <rect x="76" y="449" width="142" height="38" rx="19" fill="#101a26" stroke="#4edcf7" stroke-opacity="0.84"/>
+    <circle cx="97" cy="468" r="4" fill="#75ebff"/>
+    <text x="153" y="474" text-anchor="middle" fill="#e2fbff">NATIVE GTK</text>
+
+    <rect x="232" y="449" width="147" height="38" rx="19" fill="#101a26" stroke="#57b9ff" stroke-opacity="0.78"/>
+    <text x="305.5" y="474" text-anchor="middle" fill="#e1f4ff">LIVE CONFIG</text>
+
+    <rect x="393" y="449" width="146" height="38" rx="19" fill="#101a26" stroke="#8e7cf4" stroke-opacity="0.78"/>
+    <text x="466" y="474" text-anchor="middle" fill="#eeeaff">18 ACTIONS</text>
+  </g>
+
+  <text x="76" y="571" fill="#8195aa" font-family="Noto Sans, sans-serif" font-size="16">github.com/oss-singularity/nemo-action-bar</text>
+</svg>

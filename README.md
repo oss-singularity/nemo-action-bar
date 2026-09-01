@@ -6,10 +6,18 @@
 
 <p align="center">
   <a href="https://github.com/ClaudiuSchuster/nemo-action-bar/actions/workflows/check.yml"><img alt="Checks" src="https://github.com/ClaudiuSchuster/nemo-action-bar/actions/workflows/check.yml/badge.svg"></a>
+  <a href="https://github.com/oss-singularity/nemo-action-bar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/oss-singularity/nemo-action-bar?display_name=tag&amp;sort=semver"></a>
   <a href="LICENSE"><img alt="License GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-6f5bd5"></a>
   <img alt="Nemo 5 or newer" src="https://img.shields.io/badge/Nemo-5%2B-75c46b">
   <img alt="Python GTK 3" src="https://img.shields.io/badge/Python-GTK%203-3776ab">
 </p>
+
+<p align="center">
+  <img src=".github/social-preview.png" width="100%"
+       alt="Nemo Action Bar — native GTK actions for Nemo">
+</p>
+
+<p align="center"><sub>18 native Nemo actions, one focused bar, and a faster path through every folder.</sub></p>
 
 The current default layout in a real Nemo window, together with Nemo's original
 toolbar and the [active-window highlight](https://github.com/ClaudiuSchuster/cinnamon-active-window-highlight):
