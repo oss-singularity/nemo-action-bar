@@ -25,6 +25,7 @@
     </filter>
   </defs>
 
+  <image href="background.png" x="0" y="0" width="1280" height="640" preserveAspectRatio="none"/>
   <rect width="1280" height="640" fill="url(#leftShade)"/>
   <rect x="1" y="1" width="1278" height="638" rx="26" fill="none" stroke="#6eddf2" stroke-opacity="0.24" stroke-width="2"/>
 
@@ -33,6 +34,7 @@
 
   <rect x="78" y="158" width="108" height="108" rx="31" fill="#4bdcff" opacity="0.20" filter="url(#tileGlow)"/>
   <rect x="76" y="156" width="112" height="112" rx="32" fill="url(#iconTile)" stroke="#a2efff" stroke-opacity="0.60"/>
+  <image href="icon.svg" x="96" y="176" width="72" height="72"/>
 
   <text x="218" y="205" fill="#ffffff" font-family="Noto Sans, sans-serif" font-size="53" font-weight="800">Nemo Action Bar</text>
   <text x="218" y="250" fill="#d9e6f5" font-family="Noto Sans, sans-serif" font-size="32" font-weight="600">for Nemo file manager</text>

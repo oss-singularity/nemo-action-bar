@@ -22,13 +22,6 @@ def parse_args(variants: list[str]) -> argparse.Namespace:
     return parser.parse_args()
 
 
-def image_magick() -> list[str]:
-    executable = shutil.which("magick") or shutil.which("convert")
-    if not executable:
-        raise SystemExit("ImageMagick is required (magick or convert).")
-    return [executable]
-
-
 def rsvg_convert() -> str:
     executable = shutil.which("rsvg-convert")
     if not executable:
@@ -56,55 +49,26 @@ def main() -> int:
     for marker, value in replacements.items():
         overlay_text = overlay_text.replace(marker, value)
 
-    command = image_magick()
     svg_renderer = rsvg_convert()
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="nemo-action-bar-social-preview-") as temporary:
         work_dir = Path(temporary)
         overlay_svg = work_dir / "overlay.svg"
-        overlay_png = work_dir / "overlay.png"
-        canvas = work_dir / "background.png"
-        app_icon = work_dir / "icon.png"
+        shutil.copy2(background, work_dir / "background.png")
+        shutil.copy2(icon, work_dir / "icon.svg")
         overlay_svg.write_text(overlay_text, encoding="utf-8")
 
-        subprocess.run(
-            [svg_renderer, "--output", str(overlay_png), str(overlay_svg)],
-            check=True,
-        )
-        subprocess.run(
-            [*command, str(background), "-resize", f"{WIDTH}x{HEIGHT}!", str(canvas)],
-            check=True,
-        )
         subprocess.run(
             [
                 svg_renderer,
                 "--width",
-                "72",
+                str(WIDTH),
                 "--height",
-                "72",
+                str(HEIGHT),
                 "--output",
-                str(app_icon),
-                str(icon),
-            ],
-            check=True,
-        )
-        subprocess.run(
-            [
-                *command,
-                str(canvas),
-                str(overlay_png),
-                "-composite",
-                str(app_icon),
-                "-geometry",
-                "+96+176",
-                "-composite",
-                "-colorspace",
-                "sRGB",
-                "-alpha",
-                "off",
-                "-strip",
                 str(output),
+                str(overlay_svg),
             ],
             check=True,
         )
