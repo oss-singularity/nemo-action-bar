@@ -1,3 +1,11 @@
+nemo-action-bar (2.0.0) unstable; urgency=medium
+
+  * Copy the current Nemo folder path when Copy Paths is used without a
+    selection.
+  * Preserve selected file and folder path copying.
+
+ -- Claudiu Schuster <info@claudiuschuster.de>  Wed, 09 Sep 2026 17:28:50 +0200
+
 nemo-action-bar (1.3.0) unstable; urgency=medium
 
   * Add Debian packaging for the Nemo Python extension.

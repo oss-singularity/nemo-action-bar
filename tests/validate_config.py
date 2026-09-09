@@ -139,6 +139,24 @@ assert not nemo_action_bar._is_nemo_desktop_location(
 )
 assert not nemo_action_bar._is_nemo_desktop_location("file:///tmp")
 
+# Copy Paths falls back to the current folder when the active view has no
+# selection, while selected files and folders retain newline-separated paths.
+assert nemo_action_bar._uri_to_path_text("file:///home/example/Documents") == (
+    "/home/example/Documents"
+)
+assert nemo_action_bar._uri_to_path_text("file:///tmp/My%20Folder") == (
+    "/tmp/My Folder"
+)
+assert nemo_action_bar._uris_to_path_text(
+    ["file:///tmp/one.txt", "file:///tmp/two.txt"]
+) == "/tmp/one.txt\n/tmp/two.txt"
+assert nemo_action_bar._uris_to_path_text(["file:///tmp/selected-folder"]) == (
+    "/tmp/selected-folder"
+)
+assert nemo_action_bar._uri_to_path_text("x-nemo-desktop:") is None
+assert nemo_action_bar._uri_to_path_text("") is None
+assert nemo_action_bar._uris_to_path_text([]) is None
+
 # Existing shortcut-only user configurations remain valid.
 legacy = copy.deepcopy(CONFIG)
 legacy["buttons"] = [

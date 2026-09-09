@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent
 
 setup(
     name="nemo-action-bar",
-    version="1.3.0",
+    version="2.0.0",
     description="A configurable GTK action bar for the Nemo file manager",
     long_description=(ROOT / "README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",

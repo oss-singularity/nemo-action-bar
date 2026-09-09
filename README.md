@@ -32,6 +32,8 @@ toolbar and the [active-window highlight](https://github.com/ClaudiuSchuster/cin
   one JSON switch away.
 - Live configuration reload in open Nemo windows.
 - Native Nemo actions, selection rules, dialogs and file operations.
+- Copy Paths copies the current folder when nothing is selected, while keeping
+  selected file and folder paths together on the clipboard.
 - Theme-compatible GTK icons and a compact layout that stays out of the way.
 
 All 18 available actions enabled:
@@ -106,7 +108,7 @@ lines are intentionally not supported.
 | `undo`, `redo`                 | Nemo's file-operation history                                       |
 | `properties`, `select-all`     | Properties or full selection                                        |
 | `show-hidden`                  | Toggle hidden files for the current window                          |
-| `copy-path`                    | Put selected local paths/URIs on the clipboard as plain text        |
+| `copy-path`                    | Copy selected paths/URIs, or current folder with no selection       |
 | `open-terminal`                | Open Nemo's configured terminal at the selected/current folder      |
 | `open-admin`                   | Use Nemo's built-in “Open as Root” action and authentication dialog |
 | `favorite-toggle`              | Add or remove the selection according to its current state          |
