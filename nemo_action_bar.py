@@ -28,7 +28,6 @@ gi.require_version("Nemo", "3.0")
 from gi.repository import Atk, Gdk, Gio, GLib, GObject, Gtk, Nemo
 
 
-
 def _config_path() -> Path:
     config_root = Path(
         os.environ.get("XDG_CONFIG_HOME") or str(Path.home() / ".config")
