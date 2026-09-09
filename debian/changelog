@@ -1,0 +1,6 @@
+nemo-action-bar (1.3.0) unstable; urgency=medium
+
+  * Add Debian packaging for the Nemo Python extension.
+  * Honor XDG configuration and data search paths.
+
+ -- Claudiu Schuster <info@claudiuschuster.de>  Wed, 09 Sep 2026 09:50:11 +0200

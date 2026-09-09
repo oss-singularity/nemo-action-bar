@@ -28,18 +28,32 @@ gi.require_version("Nemo", "3.0")
 from gi.repository import Atk, Gdk, Gio, GLib, GObject, Gtk, Nemo
 
 
-CONFIG_PATH = Path(
-    os.environ.get(
-        "NEMO_ACTION_BAR_CONFIG",
-        str(Path.home() / ".config" / "nemo-action-bar" / "buttons.json"),
+
+def _config_path() -> Path:
+    config_root = Path(
+        os.environ.get("XDG_CONFIG_HOME") or str(Path.home() / ".config")
     )
-)
+    return Path(
+        os.environ.get("NEMO_ACTION_BAR_CONFIG")
+        or str(config_root / "nemo-action-bar" / "buttons.json")
+    )
+
+
+CONFIG_PATH = _config_path()
 DATA_ROOT = Path(
-    os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local" / "share"))
+    os.environ.get("XDG_DATA_HOME") or str(Path.home() / ".local" / "share")
+)
+SYSTEM_DATA_ROOTS = tuple(
+    Path(value)
+    for value in (
+        os.environ.get("XDG_DATA_DIRS") or "/usr/local/share:/usr/share"
+    ).split(os.pathsep)
+    if value
 )
 ICON_SEARCH_PATHS = (
     Path(__file__).resolve().parent / "icons",
     DATA_ROOT / "nemo-action-bar" / "icons",
+    *(root / "nemo-action-bar" / "icons" for root in SYSTEM_DATA_ROOTS),
 )
 
 # Public, stable identifiers accepted by buttons.json.  The GtkAction names are

@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ClaudiuSchuster/nemo-action-bar/actions/workflows/check.yml"><img alt="Checks" src="https://github.com/ClaudiuSchuster/nemo-action-bar/actions/workflows/check.yml/badge.svg"></a>
+  <a href="https://github.com/oss-singularity/nemo-action-bar/actions/workflows/check.yml"><img alt="Checks" src="https://github.com/oss-singularity/nemo-action-bar/actions/workflows/check.yml/badge.svg"></a>
   <a href="https://github.com/oss-singularity/nemo-action-bar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/oss-singularity/nemo-action-bar?display_name=tag&amp;sort=semver"></a>
   <a href="LICENSE"><img alt="License GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-6f5bd5"></a>
   <img alt="Nemo 5 or newer" src="https://img.shields.io/badge/Nemo-5%2B-75c46b">
@@ -62,7 +62,7 @@ actual Desktop folder in a regular Nemo window still shows it normally.
 - Optional: `nemo-fileroller` for **Create archive** and **Extract here**
 
 ```bash
-git clone https://github.com/ClaudiuSchuster/nemo-action-bar.git
+git clone https://github.com/oss-singularity/nemo-action-bar.git
 cd nemo-action-bar
 ./install.sh
 ```
@@ -126,6 +126,26 @@ configuration if you want to adopt the current defaults after an update.
 Run `./uninstall.sh`. The user configuration is deliberately retained and can
 be removed separately if it is no longer needed. Restart Nemo afterwards.
 
+## Distribution packages
+
+The repository includes Debian packaging metadata following the packaging shape
+used by Linux Mint's `nemo-extensions` project. Build a local package with:
+
+```bash
+make package
+```
+
+On a Debian-compatible system, install `build-essential`, `debhelper`,
+`dh-python`, `python3-all` and `python3-setuptools` first. The full package
+layout and the separate Linux Mint upstream status are described in
+[`docs/packaging.md`](docs/packaging.md).
+
+The resulting `nemo-action-bar` package installs the Python extension and its
+icon system-wide. Per-user configuration remains under
+`$XDG_CONFIG_HOME/nemo-action-bar/buttons.json` (or `~/.config` when the XDG
+variable is not set), and existing configuration is never replaced by the
+user-local installer.
+
 ## Development
 
 ```bash
@@ -141,7 +161,9 @@ request runs the same validation in GitHub Actions.
 This project is a Nemo Python UI extension, not a Cinnamon desktop extension
 and not a declarative Nemo context-menu Action. It therefore does not fit the
 Cinnamon Extensions or Cinnamon Actions download categories in their current
-form. Community distribution can use this repository, a distro package, or an
-upstream proposal to Nemo/nemo-extensions.
+form. Community distribution can use this repository or a distro package. An
+upstream proposal to `linuxmint/nemo-extensions` is prepared separately, but
+the project is not an official Linux Mint package until that proposal is
+accepted.
 
 Licensed under GPL-2.0-or-later. See `LICENSE`.
