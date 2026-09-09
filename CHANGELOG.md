@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.0.0 — 2026-09-09
+
+- Copy the current Nemo folder path or URI when **Copy Paths** is used with no
+  selection.
+- Preserve newline-separated copying for selected files and folders.
+- Add coverage for current-location, single-selection and multiple-selection
+  path handling.
+
+## 1.3.0 — 2026-09-09
+
+- Add Debian packaging metadata and a reproducible `make package` target for
+  system-wide Nemo installation and `nemo-extensions` review.
+- Honor `XDG_CONFIG_HOME` when locating the live user configuration.
+- Discover packaged icons through the standard `XDG_DATA_DIRS` search path.
+- Point the public clone and CI links at the canonical `oss-singularity`
+  repository.
+
 ## 1.2.1 — 2026-09-01
 
 - Add a polished 1280×640 GitHub social-preview card and a reproducible source

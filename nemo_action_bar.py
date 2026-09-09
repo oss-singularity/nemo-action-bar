@@ -28,18 +28,31 @@ gi.require_version("Nemo", "3.0")
 from gi.repository import Atk, Gdk, Gio, GLib, GObject, Gtk, Nemo
 
 
-CONFIG_PATH = Path(
-    os.environ.get(
-        "NEMO_ACTION_BAR_CONFIG",
-        str(Path.home() / ".config" / "nemo-action-bar" / "buttons.json"),
+def _config_path() -> Path:
+    config_root = Path(
+        os.environ.get("XDG_CONFIG_HOME") or str(Path.home() / ".config")
     )
-)
+    return Path(
+        os.environ.get("NEMO_ACTION_BAR_CONFIG")
+        or str(config_root / "nemo-action-bar" / "buttons.json")
+    )
+
+
+CONFIG_PATH = _config_path()
 DATA_ROOT = Path(
-    os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local" / "share"))
+    os.environ.get("XDG_DATA_HOME") or str(Path.home() / ".local" / "share")
+)
+SYSTEM_DATA_ROOTS = tuple(
+    Path(value)
+    for value in (
+        os.environ.get("XDG_DATA_DIRS") or "/usr/local/share:/usr/share"
+    ).split(os.pathsep)
+    if value
 )
 ICON_SEARCH_PATHS = (
     Path(__file__).resolve().parent / "icons",
     DATA_ROOT / "nemo-action-bar" / "icons",
+    *(root / "nemo-action-bar" / "icons" for root in SYSTEM_DATA_ROOTS),
 )
 
 # Public, stable identifiers accepted by buttons.json.  The GtkAction names are
@@ -207,6 +220,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
 MAX_BUTTONS = 32
 NEMO_FILE_ACTION_GROUPS = ("DirViewActions",)
 NEMO_DESKTOP_URI_PREFIX = "x-nemo-desktop:"
+NEMO_CONTENT_VIEW_NAMES = frozenset({"Icon View", "List View", "Compact View"})
 # Nemo refreshes these states when its menus are updated. The action callbacks
 # still consult the live undo manager, so activating a stale-insensitive proxy
 # is safe and more reliable than synthesizing Ctrl+Z/Ctrl+Y.
@@ -241,6 +255,27 @@ def _is_nemo_desktop_location(uri: str) -> bool:
     """Return whether URI identifies Nemo's desktop surface, not a folder."""
 
     return uri.casefold().startswith(NEMO_DESKTOP_URI_PREFIX)
+
+
+def _uri_to_path_text(uri: str) -> str | None:
+    """Return the user-facing path text for a Nemo location URI."""
+
+    if not uri or _is_nemo_desktop_location(uri):
+        return None
+    file = Gio.File.new_for_uri(uri)
+    return file.get_path() or file.get_parse_name() or None
+
+
+def _uris_to_path_text(uris: list[str]) -> str | None:
+    """Return newline-separated path text for selected Nemo URIs."""
+
+    paths = []
+    for uri in uris:
+        path = _uri_to_path_text(uri)
+        if path is None:
+            return None
+        paths.append(path)
+    return "\n".join(paths) if paths else None
 
 
 def _activate_with_current_selection(action: Gtk.Action) -> None:
@@ -384,9 +419,12 @@ def load_config(path: Path = CONFIG_PATH) -> dict[str, Any]:
 
 
 class ActionBar(Gtk.Box):
-    def __init__(self, window: Gtk.Window, config: dict[str, Any]) -> None:
+    def __init__(
+        self, window: Gtk.Window, config: dict[str, Any], location_uri: str
+    ) -> None:
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
         self._window = window
+        self._location_uri = location_uri
         self._register_custom_icons()
         self.set_hexpand(True)
         self.get_style_context().add_class(Gtk.STYLE_CLASS_TOOLBAR)
@@ -605,7 +643,7 @@ class ActionBar(Gtk.Box):
 
     def _copy_selected_paths(self) -> None:
         if self._focused_selection_count() == 0:
-            self._show_unavailable("Select at least one file first.")
+            self._copy_current_location()
             return
 
         action = self._find_nemo_action(("Copy",), NEMO_FILE_ACTION_GROUPS)
@@ -624,15 +662,21 @@ class ActionBar(Gtk.Box):
 
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         uris = clipboard.wait_for_uris() or []
-        if not uris:
+        text = _uris_to_path_text(uris)
+        if text is None:
             self._show_unavailable("The selected paths could not be read.")
             return
 
-        paths = []
-        for uri in uris:
-            file = Gio.File.new_for_uri(uri)
-            paths.append(file.get_path() or file.get_parse_name())
-        text = "\n".join(paths)
+        clipboard.set_text(text, -1)
+        clipboard.store()
+
+    def _copy_current_location(self) -> None:
+        text = _uri_to_path_text(self._location_uri)
+        if text is None:
+            self._show_unavailable("The current folder path could not be read.")
+            return
+
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard.set_text(text, -1)
         clipboard.store()
 
@@ -649,6 +693,18 @@ class ActionBar(Gtk.Box):
             if widget is self._window:
                 break
             widget = widget.get_parent()
+
+        # Clicking a non-focusable action-bar button can leave the focus on a
+        # sidebar or on the window itself. Nemo gives its directory views
+        # stable accessible names, so use them as a focus-independent fallback
+        # and do not accidentally treat the sidebar's selection as a file.
+        for candidate in self._walk_widgets(self._window):
+            accessible = candidate.get_accessible()
+            if (
+                isinstance(accessible, Atk.Selection)
+                and accessible.get_name() in NEMO_CONTENT_VIEW_NAMES
+            ):
+                return accessible.get_selection_count()
         return None
 
     def _show_unavailable(self, message: str, detail: str | None = None) -> None:
@@ -703,7 +759,7 @@ class NemoActionBarProvider(GObject.GObject, Nemo.LocationWidgetProvider):
         if _is_nemo_desktop_location(uri):
             return None
 
-        bar = ActionBar(window, self._config)
+        bar = ActionBar(window, self._config, uri)
         self._bars.append(weakref.ref(bar))
         return bar
 
